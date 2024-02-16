@@ -8,9 +8,9 @@ public interface ITasksService
     
     Task<ObjectResult> UpdateStatusAsync(PatchTasksRequest command);
 
-    Task<ObjectResult> FindByIdAsync(GetTasksByIdQuery query);
+    Task<ObjectResult> FindByIdAsync(Guid id);
 
     Task<ObjectResult> GetAllTasksAsync(GetTasksQuery query);
 
-    Task<ObjectResult> DeleteLogicalByIdAsync(DeleteTasksRequest command);
+    Task<ObjectResult> DeleteLogicalByIdAsync(Guid id);
 }

@@ -6,5 +6,6 @@ public class PatchTasksRequest
 {
     [JsonIgnore]
     public Guid Id { get; set; }
+    
     public TasksStatus Status { get; set; }
 }

@@ -25,7 +25,7 @@ public sealed class TasksService : ITasksService
 
         var responseTask = new CreateTaskResponse()
         {
-            Data = new CreateTaskResponse.TaskResponse(entity.Id)
+            Data = new CreateTaskResponse.TaskResponse(entity.Id, entity.CreatedDate.Value)
         };
 
         return new ObjectResult(responseTask) { StatusCode = StatusCodes.Status201Created };
@@ -65,9 +65,9 @@ public sealed class TasksService : ITasksService
         return new ObjectResult(string.Empty) { StatusCode = StatusCodes.Status404NotFound };
     }
 
-    public async Task<ObjectResult> FindByIdAsync(GetTasksByIdQuery query)
+    public async Task<ObjectResult> FindByIdAsync(Guid id)
     {
-        var task = await _tasksRepository.FindOneAsync(x => x.Id == query.Id);
+        var task = await _tasksRepository.FindOneAsync(x => x.Id == id);
 
         if (task is null)
             return new ObjectResult(string.Empty) { StatusCode = StatusCodes.Status404NotFound };
@@ -109,9 +109,9 @@ public sealed class TasksService : ITasksService
         };
     }
 
-    public async Task<ObjectResult> DeleteLogicalByIdAsync(DeleteTasksRequest command)
+    public async Task<ObjectResult> DeleteLogicalByIdAsync(Guid id)
     {
-        var task = await _tasksRepository.FindOneAsync(x => x.Id == command.Id);
+        var task = await _tasksRepository.FindOneAsync(x => x.Id == id);
 
         if (task is null)
             return new ObjectResult(string.Empty) { StatusCode = StatusCodes.Status404NotFound };

@@ -1,11 +1,9 @@
 using Microsoft.AspNetCore.Mvc;
 using Tasks.Domain.Commands.CreateTasks;
-using Tasks.Domain.Commands.DeleteTasks;
 using Tasks.Domain.Commands.PatchTasks;
 using Tasks.Domain.Commands.UpdatedTasks;
 using Tasks.Domain.Interfaces;
 using Tasks.Domain.Queries.GetTasks;
-using Tasks.Domain.Queries.GetTasksById;
 
 namespace Tasks.Api.Controllers;
 
@@ -50,7 +48,7 @@ public class TasksController : Controller
     [ProducesResponseType<string>(StatusCodes.Status200OK)]
     [ProducesResponseType<string>(StatusCodes.Status404NotFound)]
     public async Task<IActionResult> GetAsync(Guid id)
-    => await _tasksService.FindByIdAsync(new GetTasksByIdQuery(id));
+    => await _tasksService.FindByIdAsync(id);
 
     [HttpGet]
     [ProducesResponseType<string>(StatusCodes.Status200OK)]
@@ -61,6 +59,6 @@ public class TasksController : Controller
     [HttpDelete("{id}")]
     [ProducesResponseType<string>(StatusCodes.Status204NoContent)]
     public async Task<IActionResult> DeleteAsync(Guid id)
-    => await _tasksService.DeleteLogicalByIdAsync(new DeleteTasksRequest(id));
+    => await _tasksService.DeleteLogicalByIdAsync(id);
 
 }

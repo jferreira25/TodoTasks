@@ -8,7 +8,5 @@ global using Tasks.Domain.Enums;
 global using Entity = Tasks.Domain.Entities;
 global using Tasks.Domain.Commands.UpdatedTasks;
 global using Tasks.Domain.Commands.PatchTasks;
-global using Tasks.Domain.Queries.GetTasksById;
 global using Tasks.Domain.Queries.GetTasks;
 global using Tasks.Domain.Shared;
-global using Tasks.Domain.Commands.DeleteTasks;
