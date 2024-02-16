@@ -3,11 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.0.31903.59
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tasks.Api", "Tasks.Api\Tasks.Api.csproj", "{E4CA321A-279A-460E-A98A-9098898EAD46}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tasks.Api", "src\Tasks.Api\Tasks.Api.csproj", "{E4CA321A-279A-460E-A98A-9098898EAD46}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tasks.Domain", "Tasks.Domain\Tasks.Domain.csproj", "{686DABDD-893C-44B7-89D1-6D768B7C290B}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tasks.Domain", "src\Tasks.Domain\Tasks.Domain.csproj", "{686DABDD-893C-44B7-89D1-6D768B7C290B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tasks.Infrastructure", "Tasks.Infrastructure\Tasks.Infrastructure.csproj", "{45EC20C4-1912-468E-A950-A3D034ABB9A8}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tasks.Infrastructure", "src\Tasks.Infrastructure\Tasks.Infrastructure.csproj", "{45EC20C4-1912-468E-A950-A3D034ABB9A8}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
