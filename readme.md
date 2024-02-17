@@ -47,4 +47,4 @@ Para exemplificar quando rodado eu desliguei o mongo para forçar falhas de requ
 
 e o resultado foi:
 
-![teste-carga](teste-carga.png)
+![teste-carga](testes-stress/teste-carga.png)
