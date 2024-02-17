@@ -48,3 +48,7 @@ Para exemplificar quando rodado eu desliguei o mongo para forçar falhas de requ
 e o resultado foi:
 
 ![teste-carga](testes-stress/teste-carga.png)
+
+## Testes de unidade da aplicação
+
+![testes-unitario](testes-stress/testes-unitarios.png)
