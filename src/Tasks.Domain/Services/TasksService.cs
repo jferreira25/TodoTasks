@@ -18,6 +18,8 @@ public sealed class TasksService : ITasksService
 
     public async Task<ObjectResult> CreateTasksAsync(CreateTasksRequest command)
     {
+        _logger.LogInformation($"{nameof(TasksService)}.CreateTasksAsync Start created task.");
+
         var entity = _mapper.Map<Entity.Tasks>(command);
         entity.SetCreatedDate();
 
@@ -28,11 +30,15 @@ public sealed class TasksService : ITasksService
             Data = new CreateTaskResponse.TaskResponse(entity.Id, entity.CreatedDate.Value)
         };
 
+        _logger.LogInformation($"{nameof(TasksService)}.CreateTasksAsync End created task.");
+
         return new ObjectResult(responseTask) { StatusCode = StatusCodes.Status201Created };
     }
 
     public async Task<ObjectResult> UpdatedTasksAsync(UpdatedTasksRequest command)
     {
+        _logger.LogInformation($"{nameof(TasksService)}.UpdatedTasksAsync Start updated task.");
+
         var createdTask = await _tasksRepository.FindOneAsync(x => x.Id == command.Id);
 
         if (!(createdTask is null))
@@ -44,11 +50,15 @@ public sealed class TasksService : ITasksService
             return new ObjectResult(string.Empty) { StatusCode = StatusCodes.Status204NoContent };
         }
 
+        _logger.LogInformation($"{nameof(TasksService)}.UpdatedTasksAsync task not found.");
+
         return new ObjectResult(string.Empty) { StatusCode = StatusCodes.Status404NotFound };
     }
 
     public async Task<ObjectResult> UpdateStatusAsync(PatchTasksRequest command)
     {
+        _logger.LogInformation($"{nameof(TasksService)}.UpdateStatusAsync Start updated status task.");
+
         var task = await _tasksRepository.FindOneAsync(x => x.Id == command.Id);
 
         if (!(task is null))
@@ -62,20 +72,30 @@ public sealed class TasksService : ITasksService
             return new ObjectResult(string.Empty) { StatusCode = StatusCodes.Status204NoContent };
         }
 
+        _logger.LogInformation($"{nameof(TasksService)}.UpdateStatusAsync task not found.");
+
         return new ObjectResult(string.Empty) { StatusCode = StatusCodes.Status404NotFound };
     }
 
     public async Task<ObjectResult> FindByIdAsync(Guid id)
     {
+        _logger.LogInformation($"{nameof(TasksService)}.FindByIdAsync Start find task by id.");
+
         var task = await _tasksRepository.FindOneAsync(x => x.Id == id);
 
         if (task is null)
+        {
+            _logger.LogInformation($"{nameof(TasksService)}.FindByIdAsync task not found.");
+
             return new ObjectResult(string.Empty) { StatusCode = StatusCodes.Status404NotFound };
+        }
 
         var response = new GetTasksByIdQueryResponse()
         {
             Data = _mapper.Map<GetTasksByIdQueryResponse.TaskResponseById>(task)
         };
+
+        _logger.LogInformation($"{nameof(TasksService)}.FindByIdAsync End find task by id.");
 
         return new ObjectResult(response)
         {
@@ -85,6 +105,8 @@ public sealed class TasksService : ITasksService
 
     public async Task<ObjectResult> GetAllTasksAsync(GetTasksQuery query)
     {
+        _logger.LogInformation($"{nameof(TasksService)}.GetAllTasksAsync Start get all tasks.");
+
         IEnumerable<Entity.Tasks> tasks;
         var filterDate = query?.StartDate is null || query?.EndDate is null;
 
@@ -96,12 +118,18 @@ public sealed class TasksService : ITasksService
                                                         task.CreatedDate <= query.EndDate);
 
         if (!(tasks?.Any() ?? false))
+        {
+            _logger.LogInformation($"{nameof(TasksService)}.GetAllTasksAsync task not found.");
+
             return new ObjectResult(string.Empty) { StatusCode = StatusCodes.Status404NotFound };
+        }
 
         var response = new GetTasksQueryResponse()
         {
             Data = _mapper.Map<List<GetTasksQueryResponse.TaskResponse>>(tasks)
         };
+
+        _logger.LogInformation($"{nameof(TasksService)}.GetAllTasksAsync End get all tasks.");
 
         return new ObjectResult(response)
         {
@@ -111,14 +139,21 @@ public sealed class TasksService : ITasksService
 
     public async Task<ObjectResult> DeleteLogicalByIdAsync(Guid id)
     {
+        _logger.LogInformation($"{nameof(TasksService)}.DeleteLogicalByIdAsync Start delete task.");
+
         var task = await _tasksRepository.FindOneAsync(x => x.Id == id);
 
         if (task is null)
-            return new ObjectResult(string.Empty) { StatusCode = StatusCodes.Status404NotFound };
+        {
+            _logger.LogInformation($"{nameof(TasksService)}.DeleteLogicalByIdAsync task not found.");
 
+            return new ObjectResult(string.Empty) { StatusCode = StatusCodes.Status404NotFound };
+        }
         task.SetDelete();
 
         await _tasksRepository.UpdateAsync(task);
+
+        _logger.LogInformation($"{nameof(TasksService)}.DeleteLogicalByIdAsync End delete task.");
 
         return new ObjectResult(string.Empty) { StatusCode = StatusCodes.Status204NoContent };
     }

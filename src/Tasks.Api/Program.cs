@@ -1,6 +1,7 @@
 using Tasks.Api.Configure;
 
 var builder = WebApplication.CreateBuilder(args);
+
 builder.AddBuilder();
 
 builder.Services.AddLogger(builder.Configuration);

@@ -1,0 +1,31 @@
+version: "3"
+
+services:
+  api:
+    container_name: api
+    image: todo-list
+    build:
+      context: .
+      dockerfile: Dockerfile
+    restart: always
+    ports:
+      - "8080:8080"
+    depends_on:
+      - mongodb
+    networks:
+      - todo_net
+    environment:
+      ASPNETCORE_ENVIRONMENT: 'Development'
+  mongodb:
+    container_name: mongodb
+    image: mongo
+    restart: always
+    volumes:
+      - ./.docker/data:/data/db
+    ports:
+      - "27017:27017"
+    networks:
+      - todo_net
+networks:
+  todo_net:
+    driver: bridge

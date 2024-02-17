@@ -3,26 +3,22 @@ WORKDIR /app
 EXPOSE 80
 EXPOSE 443
 
-FROM mcr.microsoft.com/dotnet/sdk:aspnet:8.0 AS build
-WORKDIR /src
+FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
 
-COPY ["Tasks.Api/Tasks.Api.csproj", "Tasks.Api/"]
+WORKDIR /src
+COPY ["Tasks.Api/Tasks.Api.csproj", "src/Tasks.Api/"]
 COPY ["Tasks.Domain/Tasks.Domain.csproj", "Tasks.Domain/"]
 COPY ["Tasks.Infrastructure/Tasks.Infrastructure.csproj", "Tasks.Infrastructure/"]
-RUN dotnet restore "Tasks.Api/Tasks.Api.csproj"
 
+RUN dotnet restore "src/Tasks.Api/Tasks.Api.csproj"
 COPY . .
-WORKDIR "/Tasks.Api"
+WORKDIR "/src/Tasks.Api"
 RUN dotnet build "Tasks.Api.csproj" -c Release -o /app/build
 
 FROM build AS publish
 RUN dotnet publish "Tasks.Api.csproj" -c Release -o /app/publish
 
 FROM base AS final
-
-RUN apk --no-cache add tzdata
-ENV TZ=America/Sao_Paulo
-
 WORKDIR /app
 COPY --from=publish /app/publish .
 ENTRYPOINT ["dotnet", "Tasks.Api.dll"]
